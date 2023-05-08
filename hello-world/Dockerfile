@@ -1,12 +1,19 @@
-# 使用基础镜像
-FROM adoptopenjdk/openjdk11:jdk-11.0.11_9-alpine AS builder
+################################# Build Container ###############################
 
-# 声明依赖项
-RUN apk update && apk add --no-cache maven
+# Base Image for Build Container
+FROM maven:3.5.3-jdk-8-alpine as base
 
-WORKDIR /app
+# Moving into working directory
+WORKDIR /build
 
-# 复制项目文件到容器中并构建项目
-COPY pom.xml .
-COPY src/ ./src/
+# Copying pom.xml file initially for caching
+COPY hello-world/pom.xml .
+
+# Downloading Dependencies 
+RUN mvn dependency:go-offline
+
+# Copying files to /build/src/ inside container
+COPY hello-world/src/ /build/src/
+
+# Building package 
 RUN mvn package
