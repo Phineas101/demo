@@ -1,7 +1,7 @@
 ################################# Build Container ###############################
 
 # Base Image for Build Container
-FROM maven:3.5.3-jdk-8-alpine as base
+FROM maven:3.8.6-jdk-11-slim as base
 
 # Moving into working directory
 WORKDIR /build
