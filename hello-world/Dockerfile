@@ -17,3 +17,15 @@ COPY hello-world/src/ /build/src/
 
 # Building package 
 RUN mvn package
+
+# 建立基于 JRE 的最终映像
+FROM openjdk:11-jre
+
+# 暴露端口
+EXPOSE 8080
+
+# 将应用程序 Jar 文件复制到运行时映像中
+COPY --from=build /app/target/*.jar app.jar
+
+# 执行应用程序
+ENTRYPOINT ["java", "-jar", "app.jar"]
