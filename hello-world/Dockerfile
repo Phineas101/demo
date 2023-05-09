@@ -25,7 +25,7 @@ FROM openjdk:11-jre
 EXPOSE 8080
 
 # 将应用程序 Jar 文件复制到运行时映像中
-COPY --from=base /app/target/*.jar app.jar
+COPY --from=base /build/target/*.jar app.jar
 
 # 执行应用程序
 ENTRYPOINT ["java", "-jar", "app.jar"]
